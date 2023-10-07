@@ -21,6 +21,9 @@ document.addEventListener('DOMContentLoaded', function () {
   });
   });
 
+document.addEventListener('DOMContentLoaded', function () {
+    const loginForm = document.getElementById('loginForm');
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
