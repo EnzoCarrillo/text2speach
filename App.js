@@ -10,6 +10,17 @@ export default function App() {
   );
 }
 
+document.addEventListener('DOMContentLoaded', function () {
+  const registrationForm = document.getElementById('registrationForm');
+  registrationForm.addEventListener('submit', function (event) {
+  event.preventDefault();
+  const username = document.getElementById('username').value;
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+  alert('Registro exitoso. ¡Bienvenido, ' + username + '!');
+  });
+  });
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
