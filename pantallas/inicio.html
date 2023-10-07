@@ -11,7 +11,15 @@
         <button id="speakButton">Hablar</button>
     </div>
     <script>
-        
+        const textToSpeak = document.getElementById('textToSpeak');
+        const speakButton = document.getElementById('speakButton');
+        speakButton.addEventListener('click', () => {
+            const text = textToSpeak.value;
+            if (text){
+                const utterance = new SpeechSynthesisUtterance(text);
+                speechSynthesis.speak(utterance);
+            }
+        });
     </script>
 </body>
 </html>
