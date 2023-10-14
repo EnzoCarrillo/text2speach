@@ -15,3 +15,12 @@ export default function HomeScreen() {
         voice: { languageCode: 'en-US', ssmlGender: 'NEUTRAL' },
         audioConfig: { audioEncoding: 'MP3' },
       });
+    const audioData = response.audioContent;
+    const audioBlob = new Blob([audioData], { type: 'audio/mp3' });
+    const url = URL.createObjectURL(audioBlob);
+
+    setAudioUrl(url);
+  } catch (error) {
+    console.error('Error en la conversión de texto a voz:', error);
+  }
+};}
