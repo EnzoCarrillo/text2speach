@@ -5,7 +5,6 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import LogScreen from './LogScreen';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import LoginScreen from './pantallas/login';

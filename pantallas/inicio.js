@@ -1,7 +1,6 @@
 import React from 'react';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
-import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { TextToSpeechClient } from '@google-cloud/text-to-speech';
 
@@ -26,28 +25,29 @@ export default function HomeScreen() {
   } catch (error) {
     console.error('Error en la conversión de texto a voz:', error);
   }
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Text to Speech App</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Texto para convertir a voz"
+        value={textToSpeak}
+        onChangeText={text => setTextToSpeak(text)}
+      />
+      <Button title="Convertir Texto a Voz" onPress={handleTextToSpeech} />
+      {audioUrl && (
+        <audio controls>
+          <source src={audioUrl} type="audio/mp3" />
+        </audio>
+      )}
+    </View>
+  );
 };}
-return (
-  <View style={styles.container}>
-    <Text style={styles.title}>Text to Speech App</Text>
-    <TextInput
-      style={styles.input}
-      placeholder="Texto para convertir a voz"
-      value={textToSpeak}
-      onChangeText={text => setTextToSpeak(text)}
-    />
-    <Button title="Convertir Texto a Voz" onPress={handleTextToSpeech} />
-    {audioUrl && (
-      <audio controls>
-        <source src={audioUrl} type="audio/mp3" />
-      </audio>
-    )}
-  </View>
-);
 
-export default function MainScreen() {
+
+export function MainScreen() {
   const handlePlayButtonPress = async () => {
-    const audioText = 'Texto reproducido por el usuario'; // Reemplaza con el texto real reproducido
+    const audioText = 'Texto reproducido por el usuario';
     const timestamp = firebase.firestore.FieldValue.serverTimestamp();
 
     try {
