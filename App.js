@@ -13,7 +13,12 @@ import RegisterScreen from './pantallas/registro';
 import HomeScreen from './pantallas/inicio';
 export default function App() {
   return (
-    <HomeScreen />
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Logs" component={LogScreen} />
+        {/HomeScreen}
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
@@ -34,17 +39,6 @@ const analytics = getAnalytics(app);
 
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
-}
-
-export default function App() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Logs" component={LogScreen} />
-        {/* Add other screens here */}
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
 }
 
 
