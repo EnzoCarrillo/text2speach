@@ -33,6 +33,68 @@ export default function RegisterScreen({ navigation }) {
         </View>
       );
     }
+
+    const AuthScreen = () => {
+      const signInWithGoogle = async () => {
+        try {
+          const provider = new firebase.auth.GoogleAuthProvider();
+          const result = await firebase.auth().signInWithPopup(provider);
+          console.log(result.user);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+    
+      return (
+        <View>
+          <Button title="Iniciar Sesión con Google" onPress={signInWithGoogle} />
+        </View>
+      );
+    };
+    
+    const App = () => {
+      const [user, setUser] = useState(null);
+    
+      useEffect(() => {
+        const unsubscribe = firebase.auth().onAuthStateChanged((authUser) => {
+          if (authUser) {
+            // El usuario está autenticado
+            setUser(authUser);
+          } else {
+            // El usuario no está autenticado
+            setUser(null);
+          }
+        });
+    
+        return () => {
+          // Limpiar el efecto al desmontar el componente
+          unsubscribe();
+        };
+      }, []);
+    
+      const signOut = async () => {
+        try {
+          await firebase.auth().signOut();
+          console.log('Usuario cerró sesión');
+        } catch (error) {
+          console.error(error);
+        }
+      };
+    
+      return (
+        <View>
+          {user ? (
+            <View>
+              <Text>Bienvenido, {user.displayName}</Text>
+              <Button title="Cerrar Sesión" onPress={signOut} />
+            </View>
+          ) : (
+            <Text>No estás autenticado</Text>
+          )}
+        </View>
+      );
+    };
+    
     const styles = StyleSheet.create({
         container: {
           flex: 1,
