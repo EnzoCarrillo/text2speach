@@ -3,7 +3,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
-import 'firebase/auth';
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { StatusBar } from 'expo-status-bar';
@@ -11,6 +10,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import LoginScreen from './pantallas/login';
 import RegisterScreen from './pantallas/registro';
 import HomeScreen from './pantallas/inicio';
+import LogScreen from './pantallas/registros';
 export default function App() {
   return (
     <NavigationContainer>
@@ -24,7 +24,21 @@ export default function App() {
   );
 }
 
+const {GoogleAuth} = require('google-auth-library');
 const Stack = createStackNavigator();
+
+async function main() {
+  const auth = new GoogleAuth({
+    scopes: 'https://www.googleapis.com/auth/cloud-platform'
+  });
+  const client = await auth.getClient();
+  const projectId = await auth.getProjectId();
+  const url = `https://dns.googleapis.com/dns/v1/projects/${projectId}`;
+  const res = await client.request({ url });
+  console.log(res.data);
+}
+
+main().catch(console.error);
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAxNiwMZhcyu96Hjt9vDs2p86O1-JHE9HI',

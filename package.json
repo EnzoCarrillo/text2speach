@@ -20,6 +20,8 @@
     "expo": "^49.0.21",
     "expo-status-bar": "~1.6.0",
     "firebase": "^10.7.0",
+    "google-auth-library": "^9.4.1",
+    "metro-core": "^0.80.1",
     "querystring": "^0.2.1",
     "react": "18.2.0",
     "react-native": "0.72.6",

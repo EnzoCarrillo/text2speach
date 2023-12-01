@@ -4131,7 +4131,7 @@ function-bind@^1.1.2:
   resolved "https://registry.npmjs.org/function-bind/-/function-bind-1.1.2.tgz"
   integrity sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==
 
-gaxios@^6.0.0:
+gaxios@^6.0.0, gaxios@^6.1.1:
   version "6.1.1"
   resolved "https://registry.npmjs.org/gaxios/-/gaxios-6.1.1.tgz"
   integrity sha512-bw8smrX+XlAoo9o1JAksBwX+hi/RG15J+NTSxmNPIclKC3ZVK6C2afwY8OSdRvOK0+ZLecUJYtj2MmjOt3Dm0w==
@@ -4141,7 +4141,7 @@ gaxios@^6.0.0:
     is-stream "^2.0.0"
     node-fetch "^2.6.9"
 
-gcp-metadata@^6.0.0:
+gcp-metadata@^6.1.0:
   version "6.1.0"
   resolved "https://registry.npmjs.org/gcp-metadata/-/gcp-metadata-6.1.0.tgz"
   integrity sha512-Jh/AIwwgaxan+7ZUUmRLCjtchyDiqh4KjBJ5tW3plBZb5iL/BPcso8A5DlzeD9qlw0duCamnNdpFjxwaT0KyKg==
@@ -4249,15 +4249,15 @@ globby@^11.0.1:
     merge2 "^1.4.1"
     slash "^3.0.0"
 
-google-auth-library@^9.0.0:
-  version "9.3.0"
-  resolved "https://registry.npmjs.org/google-auth-library/-/google-auth-library-9.3.0.tgz"
-  integrity sha512-W0F5CB7rAi9l+7/IVeKu26+KdzY6tCwXKAlLsZrleU/Q61XM16uonrDCQNld3Douv/5CH+YoULqNEVVkdmi5Qw==
+google-auth-library@^9.0.0, google-auth-library@^9.4.1:
+  version "9.4.1"
+  resolved "https://registry.npmjs.org/google-auth-library/-/google-auth-library-9.4.1.tgz"
+  integrity sha512-Chs7cuzDuav8W/BXOoRgSXw4u0zxYtuqAHETDR5Q6dG1RwNwz7NUKjsDDHAsBV3KkiiJBtJqjbzy1XU1L41w1g==
   dependencies:
     base64-js "^1.3.0"
     ecdsa-sig-formatter "^1.0.11"
-    gaxios "^6.0.0"
-    gcp-metadata "^6.0.0"
+    gaxios "^6.1.1"
+    gcp-metadata "^6.1.0"
     gtoken "^7.0.0"
     jws "^4.0.0"
 
@@ -5166,6 +5166,14 @@ metro-config@0.76.8:
     metro-core "0.76.8"
     metro-runtime "0.76.8"
 
+metro-core@^0.80.1:
+  version "0.80.1"
+  resolved "https://registry.npmjs.org/metro-core/-/metro-core-0.80.1.tgz"
+  integrity sha512-f2Kav0/467YBG0DGAEX6+EQoYcUK+8vXIrEHQSkxCPXTjFcyppXUt2O6SDHMlL/Z5CGpd4uK1c/byXEfImJJdA==
+  dependencies:
+    lodash.throttle "^4.1.1"
+    metro-resolver "0.80.1"
+
 metro-core@0.76.8:
   version "0.76.8"
   resolved "https://registry.npmjs.org/metro-core/-/metro-core-0.76.8.tgz"
@@ -5279,6 +5287,11 @@ metro-resolver@0.76.8:
   version "0.76.8"
   resolved "https://registry.npmjs.org/metro-resolver/-/metro-resolver-0.76.8.tgz"
   integrity sha512-KccOqc10vrzS7ZhG2NSnL2dh3uVydarB7nOhjreQ7C4zyWuiW9XpLC4h47KtGQv3Rnv/NDLJYeDqaJ4/+140HQ==
+
+metro-resolver@0.80.1:
+  version "0.80.1"
+  resolved "https://registry.npmjs.org/metro-resolver/-/metro-resolver-0.80.1.tgz"
+  integrity sha512-NuVTx+eplveM8mNybsCQ9BrATGw7lXhfEIvCa7gz6eMcKOQ6RBzwUXWMYKehw8KL4eIkNOHzdczAiGTRuhzrQg==
 
 metro-runtime@0.76.8:
   version "0.76.8"
