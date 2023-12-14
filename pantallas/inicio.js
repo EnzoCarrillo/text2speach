@@ -1,103 +1,86 @@
-import React from 'react';
-import firebase from 'firebase/app';
-import 'firebase/firestore';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import { TextToSpeechClient } from '@google-cloud/text-to-speech';
+import React, { useState, useEffect } from 'react';
+import { View, TextInput, Button, Alert } from 'react-native';
+import Slider from '@react-native-community/slider';
+import { Audio } from 'expo-av';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
-const client = new TextToSpeechClient();
-
-export default function HomeScreen() {
+export default function Inicio() {
   const [textToSpeak, setTextToSpeak] = useState('');
-  const [audioUrl, setAudioUrl] = useState('');
+  const [volume, setVolume] = useState(1.0);
+  const [isPlaying, setPlaying] = useState(false);
 
-  const handleTextToSpeech = async () => {
+  useEffect(() => {
+    const auth = getAuth();
+
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        console.warn('Usuario no autenticado.');
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const playTextToSpeech = async () => {
     try {
-      const [response] = await client.synthesizeSpeech({
-        input: { text: textToSpeak },
-        voice: { languageCode: 'en-US', ssmlGender: 'NEUTRAL' },
-        audioConfig: { audioEncoding: 'MP3' },
+      if (textToSpeak.trim() === '') {
+        Alert.alert('Error', 'Ingresa un texto antes de reproducir.');
+        return;
+      }
+
+      const auth = getAuth();
+      const user = auth.currentUser;
+
+      if (!user) {
+        Alert.alert('Error', 'Usuario no autenticado.');
+        return;
+      }
+
+
+      const { sound } = await Audio.Sound.createAsync(
+        {
+          uri: `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(textToSpeak)}&tl=en&client=tw-ob`,
+        },
+        { shouldPlay: true, volume: volume }
+      );
+
+      setPlaying(true);
+
+      await sound.setOnPlaybackStatusUpdate((status) => {
+        if (status.didJustFinish) {
+          setPlaying(false);
+        }
       });
-    const audioData = response.audioContent;
-    const audioBlob = new Blob([audioData], { type: 'audio/mp3' });
-    const url = URL.createObjectURL(audioBlob);
-
-    setAudioUrl(url);
-  } catch (error) {
-    console.error('Error en la conversión de texto a voz:', error);
-  }
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Text to Speech App</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Texto para convertir a voz"
-        value={textToSpeak}
-        onChangeText={text => setTextToSpeak(text)}
-      />
-      <Button title="Convertir Texto a Voz" onPress={handleTextToSpeech} />
-      {audioUrl && (
-        <audio controls>
-          <source src={audioUrl} type="audio/mp3" />
-        </audio>
-      )}
-    </View>
-  );
-};}
-
-
-export function MainScreen() {
-  const handlePlayButtonPress = async () => {
-    const audioText = 'Texto reproducido por el usuario';
-    const timestamp = firebase.firestore.FieldValue.serverTimestamp();
-
-    try {
-      await firebase.firestore().collection('logs').add({
-        audioText,
-        timestamp,
-      });
-
-      console.log('Registro guardado con éxito');
     } catch (error) {
-      console.error('Error al guardar el registro:', error);
+      console.error('Error al reproducir el texto:', error);
     }
   };
 
   return (
-    <View style={styles.container}>
-    <Text style={styles.title}>Text to Speech App</Text>
-    <TextInput
-      style={styles.input}
-      placeholder="Texto para convertir a voz"
-      value={textToSpeak}
-      onChangeText={text => setTextToSpeak(text)}
-    />
-    <Button title="Convertir Texto a Voz" onPress={handleTextToSpeech} />
-    {audioUrl && (
-      <audio controls>
-        <source src={audioUrl} type="audio/mp3" />
-      </audio>
-    )}
-      <Button title="Reproducir" onPress={handlePlayButtonPress} />
+    <View style={{ flex: 1, justifyContent: 'center', padding: 16 }}>
+      <Slider
+        style={{ width: '100%', marginBottom: 16 }}
+        value={volume}
+        minimumValue={0}
+        maximumValue={1}
+        onValueChange={(value) => setVolume(value)}
+        disabled={isPlaying}
+      />
+      <TextInput
+        style={{
+          height: 100,
+          borderColor: 'gray',
+          borderWidth: 1,
+          marginBottom: 16,
+          textAlignVertical: 'top',
+          padding: 8,
+        }}
+        multiline
+        placeholder="Ingresa el texto a convertir en audio..."
+        value={textToSpeak}
+        onChangeText={(text) => setTextToSpeak(text)}
+      />
+      <Button title={isPlaying ? 'Reproduciendo...' : 'Reproducir'} onPress={playTextToSpeech} disabled={isPlaying} />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 24,
-    marginBottom: 20,
-  },
-  input: {
-    width: '80%',
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 10,
-    paddingHorizontal: 10,
-  },
-});

@@ -1,62 +1,35 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import firebase from 'firebase/app';
-import 'firebase/firestore';
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+import React, { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import LoginScreen from './pantallas/login';
-import RegisterScreen from './pantallas/registro';
-import HomeScreen from './pantallas/inicio';
-import LogScreen from './pantallas/registros';
-export default function App() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Logs" component={LogScreen} />
-        <Stack.Screen name="Main" component={HomeScreen} />
-        <Stack.Screen name="Register" component={RegisterScreen} />
-        <Stack.Screen name="Login" component={LoginScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-}
-
-const {GoogleAuth} = require('google-auth-library');
-const Stack = createStackNavigator();
-
-async function main() {
-  const auth = new GoogleAuth({
-    scopes: 'https://www.googleapis.com/auth/cloud-platform'
-  });
-  const client = await auth.getClient();
-  const projectId = await auth.getProjectId();
-  const url = `https://dns.googleapis.com/dns/v1/projects/${projectId}`;
-  const res = await client.request({ url });
-  console.log(res.data);
-}
-
-main().catch(console.error);
+import { StyleSheet, View } from 'react-native';
+import Inicio from './pantallas/inicio';
+import { initializeApp } from "firebase/app";
+import 'firebase/auth';
+import { getAnalytics } from "firebase/analytics";
+export { auth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyAxNiwMZhcyu96Hjt9vDs2p86O1-JHE9HI',
-  authDomain: 'text2speach-f506f.firebaseapp.com',
-  projectId: 'text2speach-f506f',
-  storageBucket: 'text2speach-f506f.appspot.com',
-  messagingSenderId: '964372714905',
-  appId: '1:964372714905:web:51f98d9e86d3c2b279af08',
+  apiKey: "AIzaSyAxNiwMZhcyu96Hjt9vDs2p86O1-JHE9HI",
+  authDomain: "text2speach-f506f.firebaseapp.com",
+  projectId: "text2speach-f506f",
+  storageBucket: "text2speach-f506f.appspot.com",
+  messagingSenderId: "964372714905",
+  appId: "1:964372714905:web:51f98d9e86d3c2b279af08",
   measurementId: "G-7FG8FN95Z4"
 };
 
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+export default function App() {
+  useEffect(() => {
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  }, []);
 
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
+  return (
+    <View style={styles.container}>
+      <StatusBar style="auto" />
+      <Inicio />
+    </View>
+  );
 }
-
 
 const styles = StyleSheet.create({
   container: {
