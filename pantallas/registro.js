@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from 'App.js';
 
 export default function RegisterScreen({ navigation }) {
   const [username, setUsername] = useState('');

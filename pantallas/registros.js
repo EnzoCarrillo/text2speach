@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { getFirestore, collection, addDoc, onSnapshot } from 'firebase/firestore';
-import { auth } from 'App.js';
 
 export default function RegistroScreen() {
   const [registros, setRegistros] = useState([]);

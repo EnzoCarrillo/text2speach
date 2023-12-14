@@ -9,33 +9,12 @@ export default function Inicio() {
   const [volume, setVolume] = useState(1.0);
   const [isPlaying, setPlaying] = useState(false);
 
-  useEffect(() => {
-    const auth = getAuth();
-
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        console.warn('Usuario no autenticado.');
-      }
-    });
-
-    return () => unsubscribe();
-  }, []);
-
   const playTextToSpeech = async () => {
     try {
       if (textToSpeak.trim() === '') {
         Alert.alert('Error', 'Ingresa un texto antes de reproducir.');
         return;
       }
-
-      const auth = getAuth();
-      const user = auth.currentUser;
-
-      if (!user) {
-        Alert.alert('Error', 'Usuario no autenticado.');
-        return;
-      }
-
 
       const { sound } = await Audio.Sound.createAsync(
         {

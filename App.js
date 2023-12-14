@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
+import Navigation from './navigation';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
 import Inicio from './pantallas/inicio';
 import { initializeApp } from "firebase/app";
 import 'firebase/auth';
-import { getAnalytics } from "firebase/analytics";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 export { auth } from "firebase/auth";
 
 const firebaseConfig = {
@@ -20,14 +21,10 @@ const firebaseConfig = {
 export default function App() {
   useEffect(() => {
     const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
   }, []);
 
   return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-      <Inicio />
-    </View>
+      <Navigation />
   );
 }
 
