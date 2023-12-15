@@ -3,18 +3,43 @@ import { View, TextInput, Button, Alert } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { Audio } from 'expo-av';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getFirestore, collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 export default function Inicio() {
   const [textToSpeak, setTextToSpeak] = useState('');
   const [volume, setVolume] = useState(1.0);
   const [isPlaying, setPlaying] = useState(false);
 
+  const db = getFirestore();
+
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        Alert.alert('Error', 'Debes iniciar sesión para reproducir texto.');
+      }
+    });
+      return () => unsubscribe();
+  }, []);
+  
   const playTextToSpeech = async () => {
     try {
       if (textToSpeak.trim() === '') {
         Alert.alert('Error', 'Ingresa un texto antes de reproducir.');
         return;
       }
+
+      const auth = getAuth();
+      const user = auth.currentUser;
+
+      if (!user) {
+        return;
+      }
+
+      await addDoc(collection(db, 'Registros'), {
+        texto: textToSpeak,
+        fecha: serverTimestamp(),
+      });
 
       const { sound } = await Audio.Sound.createAsync(
         {
