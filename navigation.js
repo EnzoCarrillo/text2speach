@@ -13,7 +13,7 @@ const Tab = createBottomTabNavigator();
 function MyTabs(){
 return(
     <Tab.Navigator
-        initialRouteName='Registro'
+        initialRouteName='Login'
         screenOptions={{
             tabBarActiveTintColor:'blue'
         }}
